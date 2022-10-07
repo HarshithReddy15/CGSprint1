@@ -1,0 +1,87 @@
+assign.c
+
+
+Function unassignedDefect:
+
+BEGIN
+	PASS IN - Defects Structure Pointer
+	PASS OUT - NOTHING //void
+
+	Open a file named "fileDefectPtr"
+	IF File is not opened THEN
+
+		Prints error and exits the code
+
+	ELSE
+
+		Writes the details of the defects into file using Defects Structure Pointer.
+	END
+END
+
+
+Function searchProgrammer:
+
+BEGIN
+	PASS IN - Defects Structure Pointer, Array of Employee structure, number of employees.
+	PASS OUT - Nothing // void
+
+	FOR LOOP BEGIN:
+
+		IF Functional area of defect and expertise of employee is same THEN
+
+			Defect is assigned to the employee and status of defect is changed to assigned.
+			Mutex lock on emoplyee variable.
+			Calls the Create Employee Function.
+			Turns flag variable value to 1.
+			Unlocks the Mutex lock on employee variable.
+			Break the loop.
+
+		END
+
+	END FORLOOP
+	
+	IF FLAG is equal to 0 THEN
+
+		Prints "Programmer not found for defect Id".
+		Calls unassignedDefect function.
+
+	END
+END
+
+
+Function createEmployeeFile:
+
+BEGIN
+	PASS IN - Defects Structure Pointer, Employee Structure Pointer.
+	PASS OUT - NOTHING //void
+
+	Opens the file "out_file" in append mode.
+	IF FILE is NOT OPENED THEN
+
+		PRINTS "unable to open file".
+		EXITS THE THREAD.
+
+	END
+	
+	Writes the Defect details and the details of the employee to which defect has been assigned into the file.
+END 
+
+
+Function assignEmployee:
+
+BEGIN
+	PASS IN - Array of Defects Structure, valid defects count(vdc).
+	PASS OUT - NOTHING //void
+	
+	FOR LOOP BEGIN:
+
+		IF Status of defect is open THEN
+
+			Prints "Searching for programmer"
+			Calls searchProgrammer function.
+
+		END
+
+	END FORLOOP
+
+

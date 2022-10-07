@@ -1,0 +1,4 @@
+E008 : Acircraft Control error : Aircraft design : Control Area : 21/09/2022 : open : fatal
+R095 : Column values in cliant dashboard are not shown : Aircraft design : Manager : 21/09/2022 : open : fatal
+E008 : Acircraft Control error : Aircraft design : Control Area : 21/09/2022 : open : fatal
+PX01R095 : Column values in cliant dashboard are not shown : Aircraft design : Manager : 21/09/2022 : open : fatal

@@ -1,0 +1,95 @@
+// Defects in the software was reported by clients of software development who purchased.
+// These defects are to be assigned to programmers depending on functional area they are handling.
+
+// Input Files :
+1. Multiple files containing list of defects.
+[defectlist1.txt, defectlist2.txt, defectlist3.txt ...]
+2. Employee Database File
+[employees.txt]
+
+// Source Codes:
+1. main.c
+2. getdefect.c
+3. assign.c
+
+// Program Flow:
+Input Files -> main.c -> getdefect.c -> assign.c -> Output Files
+
+
+// PseudoCode
+
+----- Inside main.c file -----
+
+Function main:
+    BEGIN
+    READ argc ,argv
+    PASS IN: Command Line Arguments
+    PASS OUT: Nothing //void type
+    Consider location of input files from Command Line arguments.
+    
+    VALIDATE Command Line Arguments
+
+    IF insufficient arguments are passed THEN
+        PRINT "Insufficient Argument Passed"
+    END
+
+    CALL FUNCTION getEmployee to get number of employees
+
+    FUNCTION Display_Employees
+    
+    DEFINE separate threads for each input file passed
+
+    DECLARE  an array to store IDs
+
+    IF error while creating thread THEN
+        PRINT "thread is not created ! Fail "
+    END
+
+    Pass file location with the thread to getDefect function
+
+    Wait for all child threads to join
+    
+    END FUNCTION
+
+FUNCTION Get_Employee:
+
+    BEGIN
+
+    PASS IN: Employee Data
+    PASS OUT: COUNTER
+
+    DECLARE Location of Employee Database
+    
+    DECLARE File Pointer and Open File
+
+    IF File ptr error THEN
+        PRINT "Unable to Open the File"
+    END
+
+    DECLARE COUNTER
+
+    INFINITE WHILE LOOP BEGIN
+        IF No data to fetch THEN
+            BREAK
+        END
+
+        INCREMENT COUNTER
+
+        STORE Employee Data
+
+
+    END WHILE LOOP
+    CLOSE File
+    END FUNCTION
+
+FUNCTION Display_Employees:
+
+    BEGIN
+    
+    PASS IN: Employee array,Number of Employee
+    PASS OUT: Nothing //void
+
+    WHILE No data to display in Employee array THEN
+        //PRINT Employee Details
+    END WHILE LOOP
+    END FUNCTION

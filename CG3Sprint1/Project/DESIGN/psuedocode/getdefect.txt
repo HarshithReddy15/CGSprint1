@@ -1,0 +1,136 @@
+FILENAAME: getDefect.c
+
+
+
+
+
+
+Function getDefect:
+
+BEGIN
+   
+    PASS IN: file pointer
+    PASS OUT: Nothing // void type
+
+    DECLARE: defect_arr pointer of type struct defect
+    
+    Open the file with a file pointer
+    
+   INFINITE WHILE LOOP
+    
+        IF filePointer==NULL THEN
+    
+	    print "cannot open file" and exit	
+        END
+	
+     	
+        //read each line of the file
+
+	IF the line returns NULL
+		return as we have reached the end of file
+        END
+
+        IF checkValidity(str) is true THEN  
+             
+                Allocate the size for this particular defect using calloc of size ( struct defect )
+                FUNCTION CALL: validDefect()
+                PASS IN: defect_arr[vdc], str
+                
+                Increment the valid defect count(counter)
+	ELSE
+		FUNCTION CALL: invalidDefect
+                PASS IN: str
+        END
+    
+    END WHILELOOP
+      
+    Close the file pointer 
+       
+    FUNCTION CALL: assignEmployee
+    PASS IN: defect_arr, vdc
+
+END
+
+
+
+
+
+
+Function checkValidity:
+
+BEGIN
+   
+    PASS IN: string pointer str
+    PASS OUT: int type
+
+    INITIALISE COUNTER
+    CALLOC s of type (char *) 
+    STRCPY s, str
+    //Tokenises the line in separate parts.
+    
+    WHILE TOKEN not equal to NULL
+  
+        COUNTER INCREMENT
+        TOKEN is equal to STRTOK NULL, ":"
+        IF COUNT is equal to 7 THEN
+              RETURN 1
+        ELSE 
+              RETURN 0
+        
+        END IF 
+        
+    END WHILELOOP
+
+
+END
+
+
+
+
+
+Function InvalidDefect:
+
+BEGIN
+    
+    PASSIN: string pointer str
+    PASSOUT: Nothing //void type
+
+
+    CALLOC newts of type (char *)
+    STRCPY newts, str
+
+    //Tokenises the line in separate parts.
+    // Display Defect ID and Unvalible Informations
+
+    INITIALIZE file pointer with with invalidDefect.txt file location
+     
+    IF 	file pointer is wail to NULL THEN
+         PRINT: Unable to write into output file
+    ELSE
+         FPRINTF: print str to file pointer
+
+    FCLOSE: file pointer 
+  
+    END IF
+    
+END
+
+
+
+
+
+
+Function validDefect
+
+BEGIN
+   
+     PASSIN: defect pointer of type struuct defect, string pointer
+     PASSOUT: Nothing// void type
+
+     // tokenises the line and assigns it to the variable of defect structure pointer
+
+END
+
+
+    
+    

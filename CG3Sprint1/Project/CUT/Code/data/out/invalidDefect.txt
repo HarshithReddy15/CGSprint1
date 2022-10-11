@@ -1,6 +1,3 @@
 L001:Aircraft:BOM report:14/09/2022:open:niceToHave
 ID01: : : ::open: 
 R096:cliant dashboard are not shown:Aircraft design:dashboard Manager:21/09/2022:open:fatal:laggingID01: : : ::open: 
-L001:Aircraft:BOM report:14/09/2022:open:niceToHave
-ID01: : : ::open: 
-R096:cliant dashboard are not shown:Aircraft design:dashboard Manager:21/09/2022:open:fatal:lagging

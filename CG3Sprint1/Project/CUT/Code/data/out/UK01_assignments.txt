@@ -1,3 +1,1 @@
 UK01 : Raghu S : E001 : Row values in BOM reports are incorrect : Aircraft design : Report handling : 12/09/2002 : lagging
-UK01 : Raghu S : E001 : Row values in BOM reports are incorrect : Aircraft design : Report handling : 12/09/2002 : lagging
-UK01 : Raghu S : E001 : Row values in BOM reports are incorrect : Aircraft design : Report handling : 12/09/2002 : lagging

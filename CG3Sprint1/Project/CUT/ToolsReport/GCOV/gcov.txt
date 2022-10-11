@@ -1,0 +1,20 @@
+File 'main.c'
+Lines executed:92.73% of 55
+Branches executed:100.00% of 14
+Taken at least once:85.71% of 14
+Calls executed:81.82% of 22
+Creating 'main.c.gcov'
+
+File 'getdefect.c'
+Lines executed:89.04% of 73
+Branches executed:87.50% of 16
+Taken at least once:75.00% of 16
+Calls executed:81.48% of 27
+Creating 'getdefect.c.gcov'
+
+File 'assign.c'
+Lines executed:90.91% of 44
+Branches executed:100.00% of 14
+Taken at least once:85.71% of 14
+Calls executed:78.95% of 19
+Creating 'assign.c.gcov'

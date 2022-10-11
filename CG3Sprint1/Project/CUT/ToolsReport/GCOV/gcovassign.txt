@@ -1,0 +1,173 @@
+        -:    0:Source:assign.c
+        -:    0:Graph:assign.gcno
+        -:    0:Data:assign.gcda
+        -:    0:Runs:2
+        -:    1:/*
+        -:    2:FILE NAME: assign.c
+        -:    3:
+        -:    4:DESCRIPTION: For Every defect passed it searcher for a programmer with the same functional area
+        -:    5:of intreast and if found it allocates to the programmer else it printd the defect details 
+        -:    6:in a file namae unassigned.txt
+        -:    7:*/
+        -:    8:#include <stdio.h>
+        -:    9:#include <stdlib.h>
+        -:   10:#include <pthread.h>
+        -:   11:#include <string.h>
+        -:   12:#include "../Header/fun_head.h"
+        -:   13:
+        -:   14://Macros used 
+        -:   15:#define SUCCESS 1
+        -:   16:#define ERROR 0
+        -:   17:#define MAXDEFECT 10
+        -:   18:#define MAXSTRLEN 200
+        -:   19:#define MAXEMP 10
+        -:   20:
+        -:   21://Global variables 
+        -:   22:extern Emp *emp_arr[MAXEMP];
+        -:   23:extern int n_emp;
+        -:   24:
+        -:   25:/* 
+        -:   26:Function Name: unassignedDefect();
+        -:   27:
+        -:   28:Description: if there is no programmer found for the defect 
+        -:   29:it will append the defect details in the file name unassignedDefects.txt
+        -:   30:
+        -:   31:*/
+        -:   32:
+function unassignedDefect called 2 returned 100% blocks executed 71%
+        2:   33:void unassignedDefect(defect *defectptr)
+        -:   34:{
+        2:   35:    char *fileDefectPtr = "../data/out/unassignedDefect.txt";
+        -:   36:    FILE *flp;
+        2:   37:    flp = fopen(fileDefectPtr, "a");
+call    0 returned 2
+        2:   38:    if (flp == NULL)
+branch  0 taken 0 (fallthrough)
+branch  1 taken 2
+        -:   39:    {
+    #####:   40:        printf("\n--- Cannot open %s file ---", fileDefectPtr);
+call    0 never executed
+    #####:   41:        exit(1);
+call    0 never executed
+        -:   42:    }
+        2:   43:    fprintf(flp, "%s : %s : %s : %s : %s : %s : %s", defectptr->defectID,
+call    0 returned 2
+        -:   44:            defectptr->description,
+        -:   45:            defectptr->moduleName,
+        -:   46:            defectptr->functionalArea,
+        -:   47:            defectptr->date,
+        -:   48:            defectptr->status,
+        -:   49:            defectptr->type);
+        2:   50:    fclose(flp);
+call    0 returned 2
+        2:   51:}
+        -:   52:
+        -:   53:/*
+        -:   54:Function Name:searchProgrammer
+        -:   55:
+        -:   56:Description:This function block is used to search programmer for respective defect.
+        -:   57:If the programmer is found then the defect status is updated to assigned or else defect is added to unassigned defect category.
+        -:   58:Return type: void
+        -:   59:
+        -:   60:*/
+        -:   61:
+function searchProgrammer called 10 returned 100% blocks executed 100%
+       10:   62:void searchProgrammer(defect *defectptr, Emp *arr[], int n_emp)
+        -:   63:{
+       10:   64:    int i, foundflag = 0;
+       42:   65:    for (i = 0; i < n_emp; i++)
+branch  0 taken 40
+branch  1 taken 2 (fallthrough)
+        -:   66:    {
+       40:   67:        if (strcmp(defectptr->functionalArea, arr[i]->Expertise) == 0)
+branch  0 taken 8 (fallthrough)
+branch  1 taken 32
+        -:   68:        {
+        8:   69:            foundflag = 1;
+        8:   70:            defectptr->status = "Assigned";
+        8:   71:            pthread_mutex_lock(&arr[i]->emplock);
+call    0 returned 8
+        8:   72:            arr[i]->n_defect++;
+        8:   73:            arr[i]->assigned_arr[(arr[i]->n_defect) - 1] = defectptr;
+        8:   74:            createEmployeeFile(arr[i], defectptr);
+call    0 returned 8
+        8:   75:            printf("\nDefect Id: %s\nStatus: %s\n", defectptr->defectID, defectptr->status);
+call    0 returned 8
+        8:   76:            printf("Module Name: %s\nFunctional Area: %s\nDescription: %s\n\nHas been assigned to:-\nEmployee Id: %s\nEmployee Name: %s\n", defectptr->moduleName, defectptr->functionalArea, defectptr->description, arr[i]->Id, arr[i]->Name);
+call    0 returned 8
+        8:   77:            pthread_mutex_unlock(&arr[i]->emplock);
+call    0 returned 8
+        8:   78:            break;
+        -:   79:        }
+        -:   80:    }
+       10:   81:    if (foundflag == 0)
+branch  0 taken 2 (fallthrough)
+branch  1 taken 8
+        -:   82:    {
+        2:   83:        printf("\n--- Programmer not found for defect Id: %s ---", defectptr->defectID);
+call    0 returned 2
+        2:   84:        unassignedDefect(defectptr);
+call    0 returned 2
+        2:   85:        return;
+        -:   86:    }
+        -:   87:}
+        -:   88:
+        -:   89:/*
+        -:   90:Function Name: createEmployeeFile();
+        -:   91:
+        -:   92:Description: This Function reads the string from file and append this information to the employee file.
+        -:   93:
+        -:   94:*/
+function createEmployeeFile called 8 returned 100% blocks executed 71%
+        8:   95:void createEmployeeFile(Emp *emp_ptr, defect *defectptr)
+        -:   96:{
+        -:   97:    char out_file[MAXSTRLEN];
+        8:   98:    sprintf(out_file, "../data/out/%s_assignments.txt", emp_ptr->Id);
+        8:   99:    FILE *fp = fopen(out_file, "a");
+call    0 returned 8
+        8:  100:    if (fp == NULL)
+branch  0 taken 0 (fallthrough)
+branch  1 taken 8
+        -:  101:    {
+    #####:  102:        printf("\n--- Unable to write into output Employee file ---\n");
+call    0 never executed
+    #####:  103:        pthread_exit(NULL);
+call    0 never executed
+        -:  104:    }
+        8:  105:    fprintf(fp, "%s : %s : %s : %s : %s : %s : %s : %s", emp_ptr->Id, emp_ptr->Name, defectptr->defectID, defectptr->description, defectptr->moduleName, defectptr->functionalArea, defectptr->date, defectptr->type);
+call    0 returned 8
+        8:  106:    fclose(fp);
+call    0 returned 8
+        8:  107:}
+        -:  108:
+        -:  109:/*
+        -:  110:Function Name: assignEmployee()
+        -:  111:
+        -:  112:Description: for every defect file received it is going to check each defect 
+        -:  113:and if the status is open it is going to search for programmer and update open
+        -:  114:defect count(odc)
+        -:  115:
+        -:  116:*/
+        -:  117:
+function assignEmployee called 4 returned 100% blocks executed 100%
+        4:  118:void assignEmployee(defect *arr[], int vdc)
+        -:  119:{
+        -:  120:
+        4:  121:    int odc = 0; // odc: Open Defects Count
+       16:  122:    for (int i = 0; i < vdc; i++)
+branch  0 taken 12
+branch  1 taken 4 (fallthrough)
+        -:  123:    {
+       12:  124:        if (!strcmp(arr[i]->status, "open"))
+branch  0 taken 10 (fallthrough)
+branch  1 taken 2
+        -:  125:        {
+       10:  126:            odc++;
+       10:  127:            printf("\n\n--- Searching Programmer for defect Id: %s ---", arr[i]->defectID);
+call    0 returned 10
+       10:  128:            searchProgrammer(arr[i], emp_arr, n_emp);
+call    0 returned 10
+        -:  129:        }
+        -:  130:    }
+        -:  131:    
+        4:  132:}

@@ -1,0 +1,187 @@
+        -:    0:Source:main.c
+        -:    0:Graph:main.gcno
+        -:    0:Data:main.gcda
+        -:    0:Runs:2
+        -:    1:/*
+        -:    2:FILE NAME: main.c
+        -:    3:
+        -:    4:DESCRIPTION: main() function files used as a strating point for the project 
+        -:    5:*/
+        -:    6:#include <stdio.h>
+        -:    7:#include <stdlib.h>
+        -:    8:#include <pthread.h>
+        -:    9:#include <string.h>
+        -:   10:
+        -:   11:#include "../Header/fun_head.h"
+        -:   12:
+        -:   13://Macros used in this project 
+        -:   14:
+        -:   15:#define SUCCESS 1
+        -:   16:#define ERROR 0
+        -:   17:#define MAXFILES 5 // Maximum Input Defect files is set to 5
+        -:   18:#define MAXEMP 10
+        -:   19:#define MAXSTRLEN 200
+        -:   20:
+        -:   21://Global variables
+        -:   22:
+        -:   23:pthread_t threadIDarr[MAXFILES]; // Array to store threadID of all child threads.
+        -:   24:Emp *emp_arr[MAXEMP]; // Array of Employee Structure
+        -:   25:int n_emp; // Total count of Employee
+        -:   26:
+        -:   27:
+        -:   28:/*Function name: displayEmployee(arr[], n_emp);
+        -:   29:
+        -:   30:Description: Used to display details of all employees.
+        -:   31:
+        -:   32:*/
+        -:   33:
+function displayEmployees called 1 returned 100% blocks executed 100%
+        1:   34:void displayEmployees(Emp *arr[], int n_emp)
+        -:   35:{
+        9:   36:    for (int i = 0; i < n_emp; i++)
+branch  0 taken 8
+branch  1 taken 1 (fallthrough)
+        -:   37:    {
+        8:   38:        printf("\nID: %s Name: %s", arr[i]->Id, arr[i]->Name);
+call    0 returned 8
+        -:   39:    }
+        1:   40:}
+        -:   41:
+        -:   42:
+        -:   43:/* Function name: getEmployee(arr[]);
+        -:   44:
+        -:   45:Description: read the details of employee and Tokenises each line and stores the details as a 
+        -:   46:employee struction in an array of employee structure variable (emp_arr[])
+        -:   47:
+        -:   48:*/
+        -:   49:
+function getEmployee called 1 returned 100% blocks executed 88%
+        1:   50:int getEmployee(Emp *arr[])
+        -:   51:{
+        1:   52:    char *f_loc = "../data/employees.txt"; // Location of Employee Database
+        -:   53:
+        1:   54:    FILE *fpr = fopen(f_loc, "r");
+call    0 returned 1
+        1:   55:    if (fpr == NULL)
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+        -:   56:    {
+    #####:   57:        printf("\n---- unable to open filepointer at location:  %s ---\n", f_loc);
+call    0 never executed
+    #####:   58:        exit(1);
+call    0 never executed
+        -:   59:    }
+        -:   60:
+        -:   61:    char str[MAXSTRLEN];
+        1:   62:    int i = 0;
+        -:   63:    while (1)
+        8:   64:    {
+        9:   65:        if (fgets(str, MAXSTRLEN, fpr) == NULL)
+call    0 returned 9
+branch  1 taken 1 (fallthrough)
+branch  2 taken 8
+        -:   66:        {
+        1:   67:            break;
+        -:   68:        }
+        -:   69:
+        8:   70:        arr[i] = (Emp *)calloc(1, sizeof(Emp));
+        -:   71:
+        8:   72:        char *newstr = (char *)calloc(strlen(str), sizeof(char));
+        8:   73:        strcpy(newstr, str);
+        8:   74:        char *token = strtok(newstr, ":");
+call    0 returned 8
+        8:   75:        arr[i]->Id = (char *)calloc(strlen(token), sizeof(char));
+        8:   76:        arr[i]->Id = token;
+        8:   77:        token = strtok(NULL, ":");
+call    0 returned 8
+        8:   78:        arr[i]->Name = (char *)calloc(strlen(token), sizeof(char));
+        8:   79:        arr[i]->Name = token;
+        8:   80:        token = strtok(NULL, ":");
+call    0 returned 8
+        8:   81:        arr[i]->BUnit = (char *)calloc(strlen(token), sizeof(char));
+        8:   82:        arr[i]->BUnit = token;
+        8:   83:        token = strtok(NULL, ":");
+call    0 returned 8
+        8:   84:        arr[i]->Expertise = (char *)calloc(strlen(token), sizeof(char));
+        8:   85:        arr[i]->Expertise = token;
+        8:   86:        token = strtok(NULL, ":");
+call    0 returned 8
+        8:   87:        arr[i]->Designation = (char *)calloc(strlen(token), sizeof(char));
+        8:   88:        arr[i]->Designation = token;
+        8:   89:        arr[i]->n_defect = 0;
+        8:   90:        arr[i]->assigned_arr[MAXDEFECT] = (defect *)calloc(5, sizeof(defect));
+        -:   91:        
+        8:   92:        i++;
+        -:   93:    }
+        -:   94:
+        1:   95:    return i;
+        -:   96:}
+        -:   97:
+        -:   98:/*
+        -:   99:FUNCTION NAME: main()
+        -:  100:
+        -:  101:DESCRIPTION: Input Defect files are taken as command line arguments.
+        -:  102:Separate threads are created for each input file passed, an array is given to store all thread IDs.
+        -:  103:Passes file location with the thread to getdefect function Wait for all child threads to join.
+        -:  104:
+        -:  105:RETURNS: SUCCESS on Successfull execution of program
+        -:  106:         ERROR on failure at any point.
+        -:  107:*/
+function main called 2 returned 0% blocks executed 90%
+        2:  108:int main(int argc, char *argv[])
+        -:  109:{
+        2:  110:    int n_files = argc - 1; // Total Defect Files to be checked
+        2:  111:    printf(" Total files in queue: %d ", n_files);
+call    0 returned 2
+        2:  112:    if (argc < 2)
+branch  0 taken 1 (fallthrough)
+branch  1 taken 1
+        -:  113:    {
+        1:  114:        printf("--- Insufficient argument passed. ---");
+call    0 returned 1
+        1:  115:        printf("--- Usage: <executable> <defectfile1> <defectfile2> ... ---");
+call    0 returned 1
+        1:  116:        exit(1);
+call    0 returned 0
+        -:  117:    }
+        -:  118:
+        1:  119:    n_emp = getEmployee(emp_arr);
+call    0 returned 1
+        1:  120:    printf("\n\n--- Total Employee: %d ---\n", n_emp);
+call    0 returned 1
+        1:  121:    displayEmployees(emp_arr, n_emp);
+call    0 returned 1
+        -:  122:
+        -:  123:    // Creating Threads for each defect file
+        -:  124:    int err; // err: captures error
+        5:  125:    for (int i = 1; i < argc; i++)
+branch  0 taken 4
+branch  1 taken 1 (fallthrough)
+        -:  126:    {
+        4:  127:        printf("\n Creating Thread for file %d: %s \n", i, argv[i]);
+call    0 returned 4
+        4:  128:        err = pthread_create(&threadIDarr[i - 1], NULL, (void *)getDefect, (void *)argv[i]);
+call    0 returned 4
+        4:  129:        if (err)
+branch  0 taken 0 (fallthrough)
+branch  1 taken 4
+        -:  130:        {
+    #####:  131:            printf("\n--- ERROR: %d while creating thread for file %d: %s ---\n", err, i, argv[i]);
+call    0 never executed
+    #####:  132:            exit(1);
+call    0 never executed
+        -:  133:        }
+        -:  134:    }
+        -:  135:
+        -:  136:    // Waiting for child threads to join
+        5:  137:    for (int i = 0; i < n_files; i++)
+branch  0 taken 4
+branch  1 taken 1 (fallthrough)
+        -:  138:    {
+        4:  139:        pthread_join(threadIDarr[i], NULL);
+call    0 returned 4
+        -:  140:    }
+        -:  141:    
+        1:  142:    pthread_exit(NULL);
+        -:  143:    return SUCCESS;
+        -:  144:}

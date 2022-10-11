@@ -1,0 +1,247 @@
+        -:    0:Source:getdefect.c
+        -:    0:Graph:getdefect.gcno
+        -:    0:Data:getdefect.gcda
+        -:    0:Runs:2
+        -:    1:/*
+        -:    2:FILE NAME: getdefect.c
+        -:    3:
+        -:    4:DESCRIPTION: reads all line in multiple defect files and Tokenises each line and stores the information
+        -:    5:of defects in and array defect_arr which is of type defect struct.
+        -:    6:*/
+        -:    7:
+        -:    8:#include <stdio.h>
+        -:    9:#include <stdlib.h>
+        -:   10:#include <pthread.h>
+        -:   11:#include <string.h>
+        -:   12:#include "../Header/fun_head.h"
+        -:   13:
+        -:   14://Macros used 
+        -:   15:
+        -:   16:#define SUCCESS 1
+        -:   17:#define ERROR 0
+        -:   18:#define MAXDEFECT 10  // Maximum Number of Defects in each input file is set to 10
+        -:   19:#define MAXSTRLEN 200 // Maximum String length is set to 200
+        -:   20:
+        -:   21:
+        -:   22:
+        -:   23:/*
+        -:   24:FUNCTION NAME: validDefect()
+        -:   25:
+        -:   26:// Defect Line Format
+        -:   27:// Defect No:Description:Module name:Functional area:Filed-on Date:Status:Type
+        -:   28:
+        -:   29:DESCRIPTION: It takes valid Defect strucuture and Defect String/Line as Input.
+        -:   30:Tokenises string and stores it in the defect structure.
+        -:   31:
+        -:   32:RETURNS: void
+        -:   33:*/
+function validDefect called 12 returned 100% blocks executed 100%
+       12:   34:void validDefect(defect *defectptr, char *str)
+        -:   35:{
+       12:   36:    char *newstr = (char *)calloc(strlen(str), sizeof(char));
+       12:   37:    strcpy(newstr, str);
+       12:   38:    char *token = strtok(newstr, ":");
+call    0 returned 12
+       12:   39:    defectptr->defectID = (char *)calloc(strlen(token), sizeof(char));
+       12:   40:    defectptr->defectID = token;
+       12:   41:    token = strtok(NULL, ":");
+call    0 returned 12
+       12:   42:    defectptr->description = (char *)calloc(strlen(token), sizeof(char));
+       12:   43:    defectptr->description = token;
+       12:   44:    token = strtok(NULL, ":");
+call    0 returned 12
+       12:   45:    defectptr->moduleName = (char *)calloc(strlen(token), sizeof(char));
+       12:   46:    defectptr->moduleName = token;
+       12:   47:    token = strtok(NULL, ":");
+call    0 returned 12
+       12:   48:    defectptr->functionalArea = (char *)calloc(strlen(token), sizeof(char));
+       12:   49:    defectptr->functionalArea = token;
+       12:   50:    token = strtok(NULL, ":");
+call    0 returned 12
+       12:   51:    defectptr->date = (char *)calloc(strlen(token), sizeof(char));
+       12:   52:    defectptr->date = token;
+       12:   53:    token = strtok(NULL, ":");
+call    0 returned 12
+       12:   54:    defectptr->status = (char *)calloc(strlen(token), sizeof(char));
+       12:   55:    defectptr->status = token;
+       12:   56:    token = strtok(NULL, ":");
+call    0 returned 12
+       12:   57:    defectptr->type = (char *)calloc(strlen(token), sizeof(char));
+       12:   58:    defectptr->type = token;
+       12:   59:}
+        -:   60:
+        -:   61:
+        -:   62:/*
+        -:   63:FUNCTION NAME: checkValidity()
+        -:   64:
+        -:   65:DESCRIPTION: It take the defect line as an argument, the line breaks into two different parts.
+        -:   66:If required information is given consider as valid entry.
+        -:   67:Else consider it as invalid entry and pass it to the invalidDefect() function.
+        -:   68:For all valid entries, store values in a proper data structures.
+        -:   69:All defects are stored inside an array of defect structure.
+        -:   70:At last, passes this array with valid entries to assign Programmer Function
+        -:   71:
+        -:   72:
+        -:   73:RETURNS: 1 in case of valid entry.
+        -:   74:         0 in case of invalid entry.
+        -:   75:*/
+function checkValidity called 24 returned 100% blocks executed 100%
+       24:   76:int checkValidity(char *str)
+        -:   77:{
+       24:   78:    int count = 0;
+       24:   79:    char *s = (char *)calloc(strlen(str), sizeof(char));
+       24:   80:    stpcpy(s, str);
+        -:   81:
+       24:   82:    char *token = strtok(s, ":");
+call    0 returned 24
+      169:   83:    while (token != NULL)
+branch  0 taken 145
+branch  1 taken 24 (fallthrough)
+        -:   84:    {
+      145:   85:        count++;
+      145:   86:        token = strtok(NULL, ":");
+call    0 returned 145
+        -:   87:    }
+       24:   88:    if (count == 7)
+branch  0 taken 12 (fallthrough)
+branch  1 taken 12
+        -:   89:    {
+       12:   90:        return 1;
+        -:   91:    }
+        -:   92:    else
+        -:   93:    {
+       12:   94:        return 0;
+        -:   95:        
+        -:   96:    }
+        -:   97:}
+        -:   98:
+        -:   99:
+        -:  100:/*
+        -:  101:FUNCTION NAME: displayValidDefects()
+        -:  102:
+        -:  103:DESCRIPTION: It take array of defects as argument and displays all defect elements.
+        -:  104:
+        -:  105:RETURNS: void
+        -:  106:*/
+function displayvalidDefects called 0 returned 0% blocks executed 0%
+    #####:  107:void displayvalidDefects(defect *arr[], int vdc)
+        -:  108:{
+    #####:  109:    for (int i = 0; i < vdc; i++)
+branch  0 never executed
+branch  1 never executed
+        -:  110:    {
+    #####:  111:        printf("\nID: %s Status: %s", arr[i]->defectID, arr[i]->status);
+call    0 never executed
+        -:  112:    }
+    #####:  113:}
+        -:  114:/*
+        -:  115:FUNCTION NAME: invalidDefect()
+        -:  116:
+        -:  117:DESCRIPTION: Displays proper error for invalid Defects and stores them inside a file
+        -:  118:named as "invalidDefectList.txt"
+        -:  119:
+        -:  120:RETURNS: void
+        -:  121:*/
+function invalidDefect called 12 returned 100% blocks executed 78%
+       12:  122:void invalidDefect(char *str)
+        -:  123:{
+       12:  124:    char *newstr = (char *)calloc(strlen(str), sizeof(char));
+       12:  125:    strcpy(newstr, str);
+       12:  126:    char *token = strtok(newstr, ":");
+call    0 returned 12
+       12:  127:    printf("\nDefect ID: %s contains insufficient information.", token);
+call    0 returned 12
+       12:  128:    char *filename = "../data/out/invalidDefect.txt";
+        -:  129:    FILE *fp;
+       12:  130:    fp = fopen(filename, "a");
+call    0 returned 12
+       12:  131:    if (fp == NULL)
+branch  0 taken 0 (fallthrough)
+branch  1 taken 12
+        -:  132:    {
+    #####:  133:        printf("\n--- Unable to write into output file ---\n");
+call    0 never executed
+    #####:  134:        pthread_exit(NULL);
+call    0 never executed
+        -:  135:    }
+       12:  136:    fprintf(fp, "%s", str);
+call    0 returned 12
+       12:  137:    fclose(fp);
+call    0 returned 12
+       12:  138:}
+        -:  139:
+        -:  140:/*
+        -:  141:FUNCTION NAME: getDefect
+        -:  142:
+        -:  143:DESCRIPTION: It takes the location of file as input.
+        -:  144:Open the file with a file pointer, if the pointer is NULL print "cannot open file" and exit.
+        -:  145:Reads each line of the file  if the line returns NULL break the loop as we have reached the end of file.
+        -:  146:Else pass the content to check validity function.
+        -:  147:
+        -:  148:RETRUNS: Void {Nothing}
+        -:  149:*/
+        -:  150:
+        -:  151:
+function getDefect called 4 returned 100% blocks executed 90%
+        4:  152:void *getDefect(void *file)
+        -:  153:{
+        -:  154:
+        -:  155:    defect *defect_arr[MAXDEFECT];
+        4:  156:    char *file_loc = (char *)file;
+        -:  157:
+        4:  158:    FILE *fpr = fopen(file_loc, "r");
+call    0 returned 4
+        4:  159:    if (fpr == NULL) // File Validation
+branch  0 taken 0 (fallthrough)
+branch  1 taken 4
+        -:  160:    {
+    #####:  161:        printf("\n--- Cannot open file: %s\n", file_loc);
+call    0 never executed
+    #####:  162:        pthread_exit(NULL);
+call    0 never executed
+        -:  163:    }
+        4:  164:    printf("\n--- Processing file: %s", file_loc);
+call    0 returned 4
+        -:  165:
+        -:  166:    // Reading from defect file
+        -:  167:    char str[MAXSTRLEN];
+        4:  168:    int vdc = 0;
+        -:  169:    while (1)
+        -:  170:    {
+       28:  171:        if (fgets(str, MAXSTRLEN, fpr) == NULL)
+call    0 returned 28
+branch  1 taken 4 (fallthrough)
+branch  2 taken 24
+        -:  172:        {
+        4:  173:            break;
+        -:  174:        }
+       24:  175:        if (checkValidity(str))
+call    0 returned 24
+branch  1 taken 12 (fallthrough)
+branch  2 taken 12
+        -:  176:        {
+       12:  177:            defect_arr[vdc] = (defect *)calloc(1, sizeof(defect));
+       12:  178:            validDefect(defect_arr[vdc], str);
+call    0 returned 12
+       12:  179:            vdc++;
+        -:  180:        }
+        -:  181:        else
+        -:  182:        {
+       12:  183:            invalidDefect(str);
+call    0 returned 12
+        -:  184:        }
+        -:  185:    }
+        4:  186:    fclose(fpr);
+call    0 returned 4
+        -:  187:    
+        4:  188:    assignEmployee(defect_arr, vdc);
+call    0 returned 4
+        -:  189:
+       16:  190:    for (int i = 0; i < vdc; i++)
+branch  0 taken 12
+branch  1 taken 4 (fallthrough)
+        -:  191:    {
+       12:  192:        free(defect_arr[i]);
+        -:  193:    }
+        -:  194:    
+        4:  195:}

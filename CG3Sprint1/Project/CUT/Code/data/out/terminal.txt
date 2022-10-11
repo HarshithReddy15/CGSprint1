@@ -1,4 +1,4 @@
- Total files in queue: 3 
+Total files in queue: 3 
 
 --- Total Employee: 8 ---
 
@@ -17,26 +17,19 @@ ID: U301 Name: Rohan J
  Creating Thread for file 3: ../data/defect3.txt 
 
 --- Processing file: ../data/defect.txt
-Defect ID: L001 contains insufficient information.
---- Processing file: ../data/defect2.txt
 --- Processing file: ../data/defect3.txt
+--- Processing file: ../data/defect2.txt
+Defect ID: L001 contains insufficient information.
+Defect ID: ID01 contains insufficient information.
+Defect ID: 
+ contains insufficient information.
 
 --- Searching Programmer for defect Id: F001 ---
+Defect ID: R096 contains insufficient information.
+
+--- Searching Programmer for defect Id: F005 ---
 
 --- Searching Programmer for defect Id: E001 ---
-Defect ID: ID01 contains insufficient information.
-Defect Id: E001
-Status: Assigned
-Module Name: Aircraft design
-Functional Area: Report handling
-Description: Row values in BOM reports are incorrect
-
-Has been assigned to:-
-Employee Id: UK01
-Employee Name: Raghu S
-
-
---- Searching Programmer for defect Id: Q004 ---
 Defect Id: F001
 Status: Assigned
 Module Name: Aircraft design
@@ -61,6 +54,18 @@ Employee Name: Suresh Panchal
 
 
 --- Searching Programmer for defect Id: F003 ---
+Defect Id: E001
+Status: Assigned
+Module Name: Aircraft design
+Functional Area: Report handling
+Description: Row values in BOM reports are incorrect
+
+Has been assigned to:-
+Employee Id: UK01
+Employee Name: Raghu S
+
+
+--- Searching Programmer for defect Id: Q004 ---
 Defect Id: Q004
 Status: Assigned
 Module Name: Aircraft design
@@ -74,9 +79,6 @@ Employee Name: Suresh Panchal
 
 --- Searching Programmer for defect Id: E008 ---
 --- Programmer not found for defect Id: E008 ---
-Defect ID: R096 contains insufficient information.
-
---- Searching Programmer for defect Id: F005 ---
 Defect Id: F003
 Status: Assigned
 Module Name: Aircraft design
@@ -123,4 +125,4 @@ Employee Name: Sandeep Khaire
 
 
 --- Searching Programmer for defect Id: R095 ---
---- Programmer not found for defect Id: R095 ---
+--- Programmer not found for defect Id: R095 ---c
